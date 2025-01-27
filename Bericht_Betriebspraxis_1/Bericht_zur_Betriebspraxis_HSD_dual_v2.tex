@@ -1,0 +1,164 @@
+%%% Template für den Bericht zur Betriebspraxis 
+\documentclass[praktikum,german]{hgbthesis}
+\usepackage[backend=biber,style=numeric,]{biblatex}
+\usepackage{appendix}
+
+\graphicspath{{images/}}    % wo liegen die Bilder?
+\logofile{logo}	            % name of PDF, remove or use \logofile{} for no logo
+\bibliography{references} 	% Angabe der BibTeX-Datei (bei Bedarf) (references.bib)
+
+\DefineBibliographyStrings{german}{
+  bibliography = {Quellen},
+}
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+
+\berichtNr{\uproman{1}}
+\author{Jakob Moser}
+\studiengang{HSD Dual}
+\studienort{Hagenberg}
+\abgabedatum{2025}{04}{01}
+\betreuer{DI Stefan Knauseder \\ Leitung Entwicklung Hardware}
+\firma{
+	Ginzinger electronic systems GmbH
+	Gewerbegebiet Pirath 16\\
+	4952 Weng im Innkreis
+}
+\firmenTel{+43 7723 54 22}
+\firmenUrl{www.ginzinger.com}
+
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+\chapter{Kurzfassung}
+% ===================
+
+\color{blue}   % Nur die Hinweise sind in blauer Schrift. Bitte alles in Schwarz halten.
+Umfang der Kurzfassung: ca.\ 200 Worte.
+\\
+\\
+Inhalt der Kurzfassung:
+\begin{itemize}
+\item In welchem Unternehmen wurde die Betriebspraxis absolviert (Standort, Branche, Tätigkeitsbereich)?
+\item In welcher Fachabteilung war man beschäftigt und was war die eigene Aufgabenstellung?
+\item Was war das Ziel und wie ist man vorgegangen?
+\item Was war das Ergebnis?
+\end{itemize}
+
+\vskip 15mm
+
+\noindent Zum allgemeinen Inhalt des Berichts und für die Beurteilung relevant:\\
+
+\begin{enumerate}
+	\item Der technische Bericht gibt einen Einblick in die Betriebspraxis. Neben der Darstellung des Abteilung werden der eigene Aufgabenbereich und die Aufgabenstellung beschrieben. Im Anschluss wird die technisch-methodische Umsetzung erläutert und auf die Ergebnisse eingegangen.
+
+\item Ziel des Berichtes ist eine theoretische Reflexion der Betriebspraxis in bewusst kompakter Form, wo die essentiellen Tätigkeiten dargestellt werden. Der Bericht zeigt nicht nur \emph{was} und \emph{wie}, sondern auch \emph{warum} etwas realisiert wurde (Nutzen). 
+
+\item In technischen Berichten sind Formuliereungen in der Ich-Form zu vermeiden!
+
+\item Vor der Abgabe ist der Bericht unbedingt einer Rechtschreib- und Grammatikprüfung zu unterziehen!
+\end{enumerate}
+
+\color{black}
+
+
+%%%----------------------------------------------------------
+\mainmatter           %Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+\chapter{Die Fachabteilung}
+%========================
+\color{blue}
+Hier wird die Fachabteilung vorgestellt, in der die Betriebspraxis absolviert wurde:
+\begin{itemize}
+\item Organisation der Fachabteilung
+\item Informationen zur Fachabteilung
+\item Informationen zum Tätigkeitsbereich der Fachabteilung
+\end{itemize}
+
+\vskip 8mm
+Umfang: ca. 1 Seite
+\color{black}
+
+
+\chapter{Ausgangssituation und Aufgabenstellung}
+%===============================================
+\color{blue}
+Hier wird die Ausgangssituation in der Fachabteilung zu Beginn erläutert. Darauf aufbauend wird die eigene Aufgabenstellung geschildert. Ziel, Zweck und Nutzen stehen dabei im Mittelpunkt. Man erfährt hier nicht nur, \emph{was} die Aufgabe war, sondern auch \emph{welcher Zweck} damit verfolgt wurde.
+
+\vskip 8mm
+Umfang: ca. 2 Seiten
+\color{black}
+
+
+\chapter{Technische und methodische Umsetzung}
+%=============================================
+\color{blue}
+Hier wird erläutert, \emph{wie} die Aufgabe umgesetzt wurde. Es wird sowohl die technische Umsetzung samt verwendeter Werkzeuge und Bibliotheken (HW, SW, Messgeräte, ...) erläutert, wie auch die methodische Vorgangsweise (Studie, Modell, Prototyp etc).
+
+\vskip 8mm
+Umfang: ca. 2-3 Seiten 
+\color{black}
+
+   
+\chapter{Ergebnisse und Zusammenfassung}
+%=======================================
+\color{blue}
+Hier werden die Ergebnisse dargestellt und die Zielerreichung diskutiert. Danach folgt eine Zusammenfassung der Erkenntnisse (Resümee) und ein optionaler Ausblick.
+
+\vskip 8mm
+Umfang: ca. 1-2 Seiten
+
+
+%========================================================
+% diese Seite zeigt Beispiele für die Angabe von Quellen
+% in technischen Berichten. Sie ist in der Abgabeversion
+% zu entfernen!
+\newpage
+%%%-----------------------------------------------------------------------------
+\appendix                                                             % Anahng 
+%%%-----------------------------------------------------------------------------
+\chapter{Beispiele für Quellenangaben in Texten}
+
+In technischen Berichten ist es wichtig, korrekte Quellenangaben zu machen, um die verwendete Literatur und andere Ressourcen angemessen zu zitieren. Dies dient der Glaubwürdigkeit und Nachvollziehbarkeit der Informationen im Bericht.
+
+
+\noindent Hier sind einige allgemeine Richtlinien für die Quellenangaben in technischen Berichten:\\
+
+\begin{enumerate}
+	\item \textbf{Zitierweise:} Stellen Sie sicher, dass Sie einen einheitlichen Zitierstil verwenden und sich an dessen Formatierungsvorgaben halten. Jeder Zitierstil hat seine eigenen
+				Regeln für die Formatierung von Autorennamen, Titeln, Jahreszahlen usw.
+	\item \textbf{Vollständige Angaben:} Geben Sie alle erforderlichen Informationen für die Quellenangabe an. Dazu gehören Autor(en), Titel, Veröffentlichungsdatum, Verlags- oder Website
+				Informationen, Seitenzahlen (falls zutreffend) und ähnliches.
+	\item \textbf{Nummerierung:} In einigen technischen Berichten werden die Quellen im Text durch Nummern oder Klammern gekennzeichnet. Die Nummern verweisen auf das entsprechende
+				Literaturverzeichnis am Ende des Berichts.
+	\item \textbf{Literaturverzeichnis:} Fügen Sie am Ende des Berichts ein vollständiges Literaturverzeichnis hinzu, in dem alle zitierten Quellen aufgelistet sind.
+	\item \textbf{Online-Quellen:} Für Online-Quellen sollten Sie die URL und das Zugriffsdatum angeben, um die Quelle eindeutig zu identifizieren.
+\end{enumerate}
+
+\vspace{1cm}
+\noindent Die folgenden Sätze zeigen, wie eine Quelle angegeben wird. In der Datei \textit{references.bib} werden die einzelnen Quellen
+aufgelistet. Tragen Sie hier Ihre eigenen Quellen ein und verwenden Sie den vorgegebenen Zitierstil.\\
+
+\noindent So nutzen Sie Literaturverweise. \cite{HBuch16} \\
+So verweist man auf einen Artikel. \cite{MMuster23} \\
+Das funktioniert auch mit Online-Quellen. \cite{onlineJohn}.\\
+Und noch ein Beispiel für einen technischen Bericht. \cite{techSusi}\\
+Auch ein Datenblatt sollten Sie referenzieren. \cite{datenblatt}
+
+\addcontentsline{toc}{chapter}{Beispiele für Quellenangaben in Texten} % Fügen Sie den Anhang zum Inhaltsverzeichnis hinzu
+
+
+
+%=========================================
+% Quellenverzeichnis erzeugen mit Eintrag im Inhaltsverzeichnis
+\printbibliography[heading=bibintoc]
+
+\end{document}
