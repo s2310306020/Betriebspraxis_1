@@ -23,3 +23,4 @@
   - Anhand von Datenblatt wurde ermittelt, dass ein Fehler in der Beschaltung dazu führte das 1.8V anstelle von 3,3V als Referenzpegel für diesen Digitalen Eingang angeschlossen wurde was zu Problemen füren Kann, da der Digitale eingang von aussen mit einer Spannung von 3,3V beschalten wird
 - Erstellung BSB HBI Premium
   - Anhand von Vorbesprechung, Bestehenden BSB einer anderen Variante und Schaltplan der aktuellen Variante ein BSB des Boards erstellen
+- RSC und VRP Berichte für HBI Premium erstellen
