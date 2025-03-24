@@ -24,3 +24,12 @@
 - Erstellung BSB HBI Premium
   - Anhand von Vorbesprechung, Bestehenden BSB einer anderen Variante und Schaltplan der aktuellen Variante ein BSB des Boards erstellen
 - RSC und VRP Berichte für HBI Premium erstellen
+- EMV Messungen Rosenbauer CFT 15,6"
+  - Untersuchung Ausfall LVDS-DP Chip
+  - Untersuchung I2C einflüsse
+  - Herangehensweise: Abschirmen mit Kupferklebeband
+- Rosenbauer CFT 9Stück Zusammenbau und Test
+- EMV Messungen Exias
+- SDIO Interface Messungen HBI Premium
+- EMV Störeinkopplung HBI Premium erstellung Touch setting
+- 
