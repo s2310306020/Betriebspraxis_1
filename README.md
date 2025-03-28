@@ -29,7 +29,7 @@
   - Untersuchung I2C einflüsse
   - Herangehensweise: Abschirmen mit Kupferklebeband
 - Rosenbauer CFT 9Stück Zusammenbau und Test
-- EMV Messungen Exias
+- EMV Messungen und Touchsetting Exias
 - SDIO Interface Messungen HBI Premium
 - EMV Störeinkopplung HBI Premium erstellung Touch setting
 - 
