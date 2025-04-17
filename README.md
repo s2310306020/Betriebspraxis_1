@@ -32,4 +32,4 @@
 - EMV Messungen und Touchsetting Exias
 - SDIO Interface Messungen HBI Premium
 - EMV Störeinkopplung HBI Premium erstellung Touch setting
-- 
+- Rosenbauer EMV
