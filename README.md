@@ -2,7 +2,8 @@
 
 ## Überblick Aufgaben
 
-- Inbetriebnahme + Funktionstest HBI Premium
+### HBI Premium
+ Inbetriebnahme + Funktionstest HBI Premium
   - Board Bringup script anpassen
   - RPC Script vorbereiten
   - Dokumentation Gitlab
@@ -14,9 +15,6 @@
   - Nach einschwingen Temperaturmessungen mit Thermocam (Modell dokumentieren)
   - auswertung der Messungen, recherche in Layout und Schaltplan welche Bauteile auf den Thermocam aufnahmen die heissesten wurden
   - Dokumentation der Erkenntnisse in einem GITLab worklog
-- Mechanische Konstruktion Produktionsvorrichtung zum Verkleben und Verlöten einer LED(~2 Tage)
-  - Konstruktion mit Solidworks
-  - Ermittlung der Dimensionen anhand von Datenblatt
 - Verifikationsmesungen HBI Premium Board Interrupt Pin Pegel
   - Messung mit Oszilloskop Waverunner WKM1338
   - Ermittlung der Pegel welche von i.MX8M Plus als High erkannt werden
@@ -24,12 +22,22 @@
 - Erstellung BSB HBI Premium
   - Anhand von Vorbesprechung, Bestehenden BSB einer anderen Variante und Schaltplan der aktuellen Variante ein BSB des Boards erstellen
 - RSC und VRP Berichte für HBI Premium erstellen
+- EMV Störeinkopplung HBI Premium erstellung Touch setting
+
+### Mechanische Konstruktion Produktionsvorrichtung
+- Mechanische Konstruktion Produktionsvorrichtung zum Verkleben und Verlöten einer LED(~2 Tage)
+  - Konstruktion mit Solidworks
+  - Ermittlung der Dimensionen anhand von Datenblatt
+- SDIO Interface Messungen HBI Premium
+
+### 15,6 Zoll HBI EMV Störfestigkeit Touch
+
 - EMV Messungen Rosenbauer CFT 15,6"
   - Untersuchung Ausfall LVDS-DP Chip
   - Untersuchung I2C einflüsse
   - Herangehensweise: Abschirmen mit Kupferklebeband
 - Rosenbauer CFT 9Stück Zusammenbau und Test
-- EMV Messungen und Touchsetting Exias
-- SDIO Interface Messungen HBI Premium
-- EMV Störeinkopplung HBI Premium erstellung Touch setting
 - Rosenbauer EMV
+
+### EMV Störeinkopplung erstellung Touchconfig HBI
+- EMV Messungen und Touchsetting Exias
