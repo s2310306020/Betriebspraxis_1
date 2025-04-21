@@ -2,7 +2,7 @@
 
 ## Überblick Aufgaben
 
-### HBI Premium
+### Inbetriebnahme und Verifikation HBI für Heizungen
  Inbetriebnahme + Funktionstest HBI Premium
   - Board Bringup script anpassen
   - RPC Script vorbereiten
