@@ -141,11 +141,18 @@ Der Großteil der ersten Betriebspraxis wurde mit verschiedenen Aufgaben im Bere
 \section{Mechanische Konstruktion einer Produktionsvorrichtung}
 Für ein Kundenprojekt mussten LED Module in unterschiedlichen Ausführungen produziert werden. Diese Module sollten grundlegend alle aus dem selben Aufbau bestehen. Als Basis dient eine relativ kleine, runde Leiterplatte welche mit SMD LEDs Bestückt werden sollte und für die Kontaktierung sollte diese Bestückte Leiterplatte mit einem Sockel verklebt werden, welcher über zwei Stiftförmige Pins für die Versorgung der LEDs verfügt. Da für das Verkleben ein Kleber eingesetzt werden sollte welcher bei hohen Temperaturen gehärtet wird sollten die Module zweimal den Reflow-Ofen durchlaufen um erst die Leiterplatten mit den Sockeln zu verkleben und ein weiteres Mal um die SMD LEDs und die Pins mit der Leiterplatte zu verlöten. Aufgrund der speziellen Form der Module und des besonderen Produktionsablaufes mussten eine gefräßte Vorrichtung designt werden um die Sockel in der richtigen Ausrichtung im Reflow Ofen Verkleben zu können und eine weiter Vorrichtung um die Leiterplatten mit bereits Verklebten Sockeln mit SMD LEDs bestücken zu können.
 
+\section{Design einer Interpser Platine}
+Die Ausgangssituation dieser Aufgabenstellung war, dass bei einer Leiterplatte eines Kunden, welche bei Ginzinger Bestückt werden sollte, ein Designfehler enthalten ist. Beim Design der Leiterplatte wurden die RX und TX Leitungen an einem Stecker vertauscht. Da es sich um eine relativ große Leiterplatte mit 16 Lagen und mehreren impedanzkontrollierten Leitungen zum Testen von FPGA Chips handelte und die Leiterplatte entsprechend teuer ist, sollte ein Redesign der Leiterplatte vermieden werden. Da es sich bei den vertauschten Leiterbahnen um dünne Leiterbahnen handelte, welche zum Teil auf Innenlagen geroutet wurden, war eine händische Nacharbeit sehr zeitaufwendig und risikoreich. Es wurde nach alternativen Lösungen zur möglichst günstigen Behebung des Fehlers gesucht. Schlussendlich wurde beschlossen, eine kleine Intrerposer Platine zu entwerfen, welche zwischen den Betroffenen Steckern und der Leiterplatte bestückt werden sollte, wobei die vertauschten Leitungen ausgekreuzt werden sollten und alle anderen Leitungen durchkontaktiert werden.
+Teil dieser Aufgabenstellung war das Designen dieser Interposer Platine, wobei aufgrund des bereits fixierten Produktionstermins ein Zeitlimit von drei Tagen eingehalten werden musste.
+Das Leiterplattendesign sollte mit Pads Professional umgesetzt werde. Da erst kürzlich die Umstellung zu diesem E-CAD Tool erfolgt war, wurde bisher erst ein Leiterplatten design erstellt und viele der Features des Werkzeugs waren daher neu. Dadurch war die umsetzung des Designs in der begrenzten Zeit durchaus herausfordernd. 
+
 \section{HMI EMV Störfestigkeitsmessung}
 Bei einem HMI mit 15,6 Zoll Touchscreen sollten zur Vorbereitung auf eine EMV Zertifizierung in einem externen EMV Labor Störeinkopplungsmessungen durchgeführt werden, um den aktuellen Stand abschätzen zu können und eventuell nötige Optimierungen vornehmen zu können. Bei Vorhergehenden Messungen wurden Ausfälle des LVDS Controllers und der I2C Schnittstelle der CPU festgestellt. Diese Messungen sollten Rekonstruiert und durch Optimierungen behoben werden.
 
-\section{Touchconfig für EMV Robustheit}
-Da bei einem HMI zur Steuerung von Laborzentrifugen ungewolltes auslösen des Touch Sensors bei Kabelgebundener Störeinkopplung festgestellt werden konnten, sollten änderungen an der Konfiguration des Touch Controllers vorgenommen werden. Das Ziel dieser Optimierung bestand darin, bei EMV-Prüfungen nach Haushaltsnormen ungewollte Auslösungen des Touchscreens zu verhindern, während gleichzeitig ein reaktionsschnelles Benutzererlebnis erhalten bleibt.
+Da es sich mit 15,6 Zoll um ein relativ großes Gerät handelt, wurde dieses intern aus mehreren einzelnen Leiterplatten welche über Flachbandkabel verbunden sind aufgebaut.
+
+\section{Touch Konfiguration für EMV Robustheit}
+Da bei einem HMI zur Steuerung von Laborzentrifugen ungewolltes auslösen des Touch Sensors bei Kabelgebundener Störeinkopplung festgestellt werden konnten, sollten Anderungen an der Konfiguration des Touch Controllers vorgenommen werden. Das Ziel dieser Optimierung bestand darin, bei EMV-Prüfungen nach Haushaltsnormen ungewollte Auslösungen des Touchscreens zu verhindern, während gleichzeitig ein reaktionsschnelles Benutzererlebnis erhalten bleibt.
 
 \chapter{Technische und methodische Umsetzung}
 %=============================================
@@ -157,19 +164,24 @@ Da bei einem HMI zur Steuerung von Laborzentrifugen ungewolltes auslösen des To
 % \color{black}
 
 \section{Inbetriebnahme und Verifikation HMI}
-Für die Inbetriebnahme der Baugruppen mussten zunächst Bootloader, Kernel und Root-Filesystem aufgespielt werden und danach einige Konfigurationen wie Netzwerkeinstellungen, Datenpartitionen erstellen und Bootkonfiguration vorgenommen werden. Aufspielen des Bootloaders auf das i.MX8 Board wird über das Tool UniversalUpdateUtil (uuu) durchgeführt. Sobald ein Bootloader aufgespielt wurde kann der Kernel aufgespielt werden, dazu wird auf einem Arbeitsrechner ein TFTP Server gestartet und über ein Firmeneigenes Software Tool im Bootloader die Kernel Datei vom TFTP Server geladen und installiert selber ablauf wird auch für das Root-Filesystem durchgeführt. Um diese Abläufe nicht manuell für alle Musterbaugruppen durchführen zu müssen, wurde eine Powershell Script erstellt welches die notwendigen Schritte um Bootloader, Kernel und Rootfs aufspielen automatisch durchführt und danach über eine serielle Kommunikation alle Commands zum Konfigurieren der Baugruppen absendet. Somit müssen, um die Baugruppe in Betrieb zu nehmen nur die notwendigen Verbindungen wie Versorgung, Netzwerk, USB und Serielle Schnittstelle vorgenommen werden und die Baugruppe wird automatisiert in Betrieb genommen. Nach Abschluss der Leiterplatten Inbetriebnahmen mussten die HMI Geräte mit Displayfront, SD-Karten, Kühlkörpern und RTC Batterien zusammengebaut werden um den vollständigen Funktionstest der Baugruppe durchführen zu können. Auch für die Funktionstests wurde ein Script im Firmeneigenen Linux Tool ''Linrpc'' (Linux Remote Procedure Call) erstellt. Mithilfe dieses Tools können alle Funktionsblöcke der Baugruppe wie Beispielsweise GPIO-Pins, CAN Kommunikation und Displayfunktionen getestet und ausgewertet werden. 
+Für die Inbetriebnahme der Baugruppen mussten zunächst Bootloader, Kernel und Root-Filesystem aufgespielt werden und danach einige Konfigurationen wie Netzwerkeinstellungen, Datenpartitionen erstellen und Bootkonfiguration vorgenommen werden. Aufspielen des Bootloaders auf das i.MX8 Board wird über das Tool UniversalUpdateUtil (uuu) durchgeführt. Sobald ein Bootloader aufgespielt wurde kann der Kernel aufgespielt werden, dazu wird auf einem Arbeitsrechner ein TFTP Server gestartet und über ein Firmeneigenes Software Tool im Bootloader die Kernel Datei vom TFTP Server geladen und installiert selber ablauf wird auch für das Root-Filesystem durchgeführt. Um diese Abläufe nicht manuell für alle Musterbaugruppen durchführen zu müssen, wurde eine Powershell Script erstellt welches die notwendigen Schritte um Bootloader, Kernel und Rootfs aufzuspielen automatisch durchführt und danach über eine serielle Kommunikation alle Commands zum Konfigurieren der Baugruppen absendet. Somit müssen, um die Baugruppe in Betrieb zu nehmen nur die notwendigen Verbindungen wie Versorgung, Netzwerk, USB und Serielle Schnittstelle vorgenommen werden und die Baugruppe wird automatisiert in Betrieb genommen. Nach Abschluss der Leiterplatten Inbetriebnahmen mussten die HMI Geräte mit Displayfront, SD-Karten, Kühlkörpern und RTC Batterien zusammengebaut werden um den vollständigen Funktionstest der Baugruppe durchführen zu können. Auch für die Funktionstests wurde ein Script im Firmeneigenen Linux Tool ''Linrpc'' (Linux Remote Procedure Call) erstellt. Mithilfe dieses Tools können alle Funktionsblöcke der Baugruppe wie Beispielsweise GPIO-Pins, CAN Kommunikation und Displayfunktionen getestet und ausgewertet werden. 
 Um die Temperaturmessungen der Baugruppe durchführen zu können, musste ein Entwicklungsmuster umgebaut werden. Da der vorgesehene CPU-Kühlkörper der Baugruppe das gesamte Board überdeckte und somit eine Messung mit der Thermokamera nicht möglich machte, wurde eine Baugruppe angepasst um das Messen der einzelnen Bauteile auf dem Board zu ermöglichen. Die Interne CPU Temperatur wurde mit dem Original Kühlkörper und mit dem angepassten Aufbau verglichen um sicherzustellen, dass die Werte des angepassten Aufbaus vergleichbar mit jenen des Originals sind. Für die Messung wurde 100\% CPU angelegt und der zuvor beschriebene Funktionstest für 30 Minuten ausgeführt. Es wurden Messwerte mit Thermokamera und die interne CPU-Temperatur aufgenommen und dokumentiert.
 Zur Vorbereitung auf die EMV Zertifizierung in einem externen EMV Labor, wurden Störeinkopplungsmessungen nach Haushaltsnormen (3V) durchgeführt. Bei diesen Messungen konnten Ghost Touches, also ungewolltes auslösen des Touchscreens festgestellt werden. Um dies zu Unterbinden, wurde die Konfiguration des verbauten Sitronix Touch Controllers angepasst, um die Robustheit bei Störeinkopplung zu erhöhen. Dazu wurde die ''Sitronix Touch Development Util'' Software genutzt, da damit die Parameter wie Schwellwerte für Toucherkennung und weitere Filterparameter angepasst werden können. Durch Erhöhen des Schwellwertes konnte die Robustheit von unter 3V Störeinkopplung auf über 11V erhöht werden, ohne die Benutzerfreundlichkeit merklich zu reduzieren.
 Um zu Verifizieren, dass die SDIO Timing Spezifikation sowohl bei Schreiben auf die SD-Karte als auch bei Lesen von der SD-Karte eingehalten werden, musste zunächst ein Messsaufbau ermittelt werden, welcher es mit möglichst geringem Einfluss ermöglicht die Signale welche mit Geschwindigkeiten von bis zu 208MHz (SDR104) übertragen, zu Messen. Dazu wurde ein LeCroy Wavesurfer Oszilloskop mit einer Samplerate von 20GS/s verwendet. Die Datenleitungen wurden mit Differeziellen Active Solder-In-Probes gemessen und da es bei ersten Messungen mit Solder-In-Probes auf der Clock Leitung zu ausfällen des SDIO Interfaces aufgrund der zu hohen Kapazität der Probes kam, wurde zum Aufzeichnen der Clock Leitung eine ZS1000 Active Probe verwendet. Da bei ersten Messungen an Vias mittig auf den Leiterbahnen starke Reflexionen auf den Signalen sichtbar waren, wurde ein Umbau an der Baugruppe vorgenommen, welcher ermöglichte direkt an den SD-Karten Kontakten zu messen.
 Mithilfe des LeCroy Mask Maker's wurden Signalmasken erstellt welche den Bereich auf dem Oszilloskop Bildschirm kennzeichnen welcher vicht von Signalpunkten durchschritten werden darf da ansonst Setup-/Holdzeiten oder Rise- und Fall time Zeiten verletzt wurden.
 
 \section{Mechanische Konstruktion einer Produktionsvorrichtung}
-Die mechanische Konstruktion der gefrästen Produktionsvorrichtung wurde mit der CAD-Software Solidworks umgesetzt. Zweck der Vorrichtung für den Klebevorgang ist es, die Sockel in der richtigen Ausrichtung anzuordnen und diese wählend des Durchlaufens des Reflow-Ofens zu fixieren. Zunächst wurde bei der Vorrichtung für den Klebeprozess eine 2D-Skizze des Sockels anhand des Herstellerdatenblattes angefertigt. Mithilfe der Funktion "Skizzenmuster" konnte in einer weiteren Skizze jede einzelne Prsition für einen sockel definiert werden und ssomit die Zuvor geseichnete Skizze vervielfacht werden. Dadurch muss bei einer änderung nur die initial erstellte Skizze angepasst werden und es wird jede Kopie der Skizze automatisch angepasst. In der Vorrichtung wurde Platz für Magnete vorgesehen, um die Sockel in der Vorrichtung zu halten. Um zu überprüfen, ob die Positionierung der vorgesehenen Socklplötze Mit den Positionen auf der Leiterplatte übereinstimmt, wurde das 3D-Modell der Leiterplatte mit den Sockeln in Solidworks importiert und über die erstellte vorrichtung gelegt. Die Vorrichtung für den Lötprozess wurde nach dem selbem Vorgehen erstellt.
+Die mechanische Konstruktion der gefrästen Produktionsvorrichtung wurde mit der CAD-Software Solidworks umgesetzt. Zweck der Vorrichtung für den Klebevorgang ist es, die Sockel in der richtigen Ausrichtung anzuordnen und diese wählend des Durchlaufens des Reflow-Ofens zu fixieren. Zunächst wurde bei der Vorrichtung für den Klebeprozess eine 2D-Skizze des Sockels anhand des Herstellerdatenblattes angefertigt. Mithilfe der Funktion "Skizzenmuster" konnte in einer weiteren Skizze jede einzelne Prsition für einen sockel definiert werden und somit die Zuvor geseichnete Skizze vervielfacht werden. Dadurch muss bei einer änderung nur die initial erstellte Skizze angepasst werden und es wird jede Kopie der Skizze automatisch angepasst. In der Vorrichtung wurde Platz für Magnete vorgesehen, um die Sockel in der Vorrichtung zu halten. Die Vorrichtung für den Lötprozess wurde nach dem selbem Vorgehen erstellt.
+
+\section{Design einer Interpser Platine}
+Zu Beginn wurden über Octopart Symboe und Footprints der Stecker welche auf der Interposer platziert werden sollten geladen. Da das routing der Leiterplatte relativ einfach sein würde, wurde auf eine zweilagige Leiterplatte gesetzt. Die drei betroffenen Bauteile wurden jeweils doppelt im Schaltplan Plaziert, Grund dafür ist, dass Die Bauteilfootprints auf Ober und unterseite der LEiterplatte Plaziert werden um die unterseite mit der fehlerhaften Leiterplatte zu verlöten und auf deer Oberseite die Bauteile zu bestücken. Aus den Gerberdaten der Fehlerhaften Leiterplatte wurden die Positionierungen gemessen und die  Bauteilfootprints entsprechend positioniert. Durch übereinanderlegen der Gerberdateien des Interposers mit jenen der Originalplatine konnte die Positionierung überprüft werden und die maße für die aussenkontur des Interposers festgelegt werde, so dass dieser mit keinen anderen Bauteilen Kollidiert. Nach platzieren der Bauteile wurden durch Vias alle Leitungen zwischen Top und Bottom Seite der Leiterplatte kontaktiert, wobei die Fehlerhaften Leitungen ausgekreuzt wurden.
 
 \section{HMI EMV Störfestigkeitsmessung}
-Um die vorhergegangenen Messungen rekonstruieren zu können, wurde der zugehörige Messbericht zur Hilfe genommen. Die Ausfälle Konnten bei ~4V Störeinkopplung rekonstruiert werden. Zunächst galt dei Vermutung, dass der Ausfall des LVDS Controllers in der Folge für den Ausfall des I2c Controllers sorgte. Daher wurden zu Beginn 
+Um die vorhergegangenen Messungen rekonstruieren zu können, wurde der zugehörige Messbericht zur Hilfe genommen. Laut dem Messbericht wurde bei Störeinkopplung auf den Netzwerk-, Versorgungs- und Kameraleitungen bei 4V Kernel Nachrichten welche auf einen Ausfall von I2C und LVDS Interfaces hindeuteten.
+Die Ausfälle konnten bei 4V Störeinkopplung rekonstruiert werden. Zunächst bestand die Vermutung, dass der Ausfall des LVDS Controllers in der Folge für den Ausfall des I2C Controllers sorgte. Es wurden unterschiedliche Maßnahmen getroffen, um die Versorgung der Leiterplatte mit dem LVDS Controller zu Verbessern, Stützkondensatoren auf den Versorgungsleitungen, schirmen der Flachbandkabel mit Kupferklebeband und eine verbesserte Masseanbindung der gesamten Leiterplatte durch engere Verbindung mit Masse bezogenen Teilen wie dem Gehäuse. Nachdem keine rekonstruierbare Verbesserung durch diese Anpassungen erzielt werden konnten, wurde durch mehrere Messungen überprüft, ob die initiale Vermutung, dass der LVDS Controller Ausfall für den Ausfall des I2C Interfaces mitverantwortlich war. So konnte durch Überwachen der Kernelmeldungen festgestellt werden, dass bei Testdurchläufen zuerst eine Fehlermeldung des I2C Interfaces zu sehen war. Mit dieser neuen Erkenntnis wurde die Fehleranalyse entsprechend angepasst. Da sich das I2C Interface über alle durch Flachbandkabel verbundenen Leiterplatten im gerät zog, wurden zunächst alle Flachbandverbindungen zum MAinboard getrennt und die Testdurchläufe wiederholt. Nachdem bei alleinigem Betrieb des Mainboardes keine Ausfälle festgestellt wurden, wurde durch zuschalten der anderen Leiterplatten und erneutes Testen geprüft, durch welche Leiterplatte die Störungen in das I2C Interface eingekoppelt werden.
 
-\section{Touchconfig für EMV Robustheit}
+\section{Touch Konfiguration für EMV Robustheit}
+Wie bereits zuvor beschrieben wurde auch hier durch anpassen der Sitronix Touchcontroller Konfiguration und durch erhöhen des Schwellwertes ein robusteres Verhalten bei EMV Störeinkopplung umgesetzt. Wieder wurde die bestehende Touch Konfiguration ausgelesen und im Sitronix tool ''Touch Developement Util'' angepasst und infolgedessen wieder über das Linux ''sitronix-tool'' welches firmenintern weiterentwickelt wurde in den Touchcontroller geladen. Um die angepasste Touchcontroller Konfiguration in den neuen Chargen vorzusehen, wurde die Touchkonfiguration an den Hersteller der displayfronten übermittelt.  
 
 \chapter{Ergebnisse und Zusammenfassung}
 %=======================================
@@ -189,36 +201,52 @@ Um die vorhergegangenen Messungen rekonstruieren zu können, wurde der zugehöri
 % \appendix                                                             % Anahng 
 % %%%-----------------------------------------------------------------------------
 % \color{black}
+\section{Inbetriebnahme und Verifikation HMI}
+Durch die Inbetriebnahmen und Funktionstests konnte festgestellt werden, dass alle getesteten Funktionsblöcke wie erwartet funktionierten und zugleich konnte das Vorbereitete Funktionstest Script in weiterer Folge für EMV Abstrahlungsmessungen in externen EMV Laboren genutzt werden, da die abstralung bei Betrieb aller Funktionen zu überprüfen ist.
+Auch die Temperaturmessungen ergaben, dass die geforderte Oberflächentemperatur von maximal 80°C nicht überschritten wird, und in Einem Bericht den Anforderungen aus dem Pflichtenheft gegenübergestellt wobei eine genaue Dokumentation des Prüfverfahrens in Form eines Worklogs angehängt wurde.
+Die Angepassten Touchcontroller Konfigurationen wurden auf weiteren Testgeräten aufgespielt um bei zukünftigen EMV Zertifizierungen in einem externen Labor bestätigen zu können, dass es zu keinem Fehlferhalten der Geräte kommt. Bei den Messungen des SDIO Interfaces der SD Karte konnten keine Probleme beim schreiben auf die SD Karte festgestellt werden, jedoch kam es zu mehreren verletzungen der maximal erlaubten HIGH-Threshold Spannung duch Overshoots um diesen entgegenzuwirken wurden Messungen mit Serienwiederständen auf den Datenleitungen zurchgeführt und für ein redesign 39Ohm Serienwiederstände vorgesehen.
 
-\chapter{Beispiele für Quellenangaben in Texten}
+\section{Mechanische Konstruktion einer Produktionsvorrichtung}
+Um zu überprüfen, ob die Positionierung der vorgesehenen Socklplätze mit den Positionen auf der Leiterplatte übereinstimmt, wurde das 3D-Modell der Leiterplatte mit den Sockeln in Solidworks im-
+portiert und über die erstellte vorrichtung gelegt. Die Konstruktionsdateien wurden an den Projektleiter übergeben und von diesem freigegeben.
 
-In technischen Berichten ist es wichtig, korrekte Quellenangaben zu machen, um die verwendete Literatur und andere Ressourcen angemessen zu zitieren. Dies dient der Glaubwürdigkeit und Nachvollziehbarkeit der Informationen im Bericht.
+\section{HMI EMV Störfestigkeitsmessung}
+Durch schrittweises Verbinden und wiederholtes Testen wurde festgestellt, dass die kleinste Leiterplatte im Gerät, die zur Montage eines Helligkeitssensors in der Front des Gehäuses dient, für die Ausfälle des I2C-Interfaces verantwortlich ist. Diese Leiterplatte ist über ein ungeschirmtes Flachbandkabel mit dem Mainboard verbunden und umfasst Die Versorgungsleitungen und I2C Leitungen des Sensors. Durch eine Massegebundenen Schirmen des Flachbandkabels konnte die Störfestigkeit auf über 14V erhöht werden.
+
+\section{Touch Konfiguration für EMV Robustheit}
+Um die angepasste Touchcontroller Konfiguration in den neuen Chargen vorzusehen, wurde die Kouchkonfiguration an den Hersteller der displayfronten übermittelt.
+Im Zuge dieser Anpassungen konnten fehler im Linux Tool festgestellt werden, die Dateien welche Firmware und Konfiguration enthalten und vom Hersteller benötigt werden um die angepasste Konfiguration in neuen Chargen vorzusehen wurden über das Linux Tool fehlerhaft ausgelesen und die Konfiguration konnte vom Hersteller nicht korrekt Verwendet werden. Diese Fehler wurden mit Kollegen aus der Softwareentwicklung besprochen und eine Behebund der Fehler wurde vorgesehen.
 
 
-\noindent Hier sind einige allgemeine Richtlinien für die Quellenangaben in technischen Berichten:\\
+% \chapter{Beispiele für Quellenangaben in Texten}
 
-\begin{enumerate}
-	\item \textbf{Zitierweise:} Stellen Sie sicher, dass Sie einen einheitlichen Zitierstil verwenden und sich an dessen Formatierungsvorgaben halten. Jeder Zitierstil hat seine eigenen
-				Regeln für die Formatierung von Autorennamen, Titeln, Jahreszahlen usw.
-	\item \textbf{Vollständige Angaben:} Geben Sie alle erforderlichen Informationen für die Quellenangabe an. Dazu gehören Autor(en), Titel, Veröffentlichungsdatum, Verlags- oder Website
-				Informationen, Seitenzahlen (falls zutreffend) und ähnliches.
-	\item \textbf{Nummerierung:} In einigen technischen Berichten werden die Quellen im Text durch Nummern oder Klammern gekennzeichnet. Die Nummern verweisen auf das entsprechende
-				Literaturverzeichnis am Ende des Berichts.
-	\item \textbf{Literaturverzeichnis:} Fügen Sie am Ende des Berichts ein vollständiges Literaturverzeichnis hinzu, in dem alle zitierten Quellen aufgelistet sind.
-	\item \textbf{Online-Quellen:} Für Online-Quellen sollten Sie die URL und das Zugriffsdatum angeben, um die Quelle eindeutig zu identifizieren.
-\end{enumerate}
+% In technischen Berichten ist es wichtig, korrekte Quellenangaben zu machen, um die verwendete Literatur und andere Ressourcen angemessen zu zitieren. Dies dient der Glaubwürdigkeit und Nachvollziehbarkeit der Informationen im Bericht.
 
-\vspace{1cm}
-\noindent Die folgenden Sätze zeigen, wie eine Quelle angegeben wird. In der Datei \textit{references.bib} werden die einzelnen Quellen
-aufgelistet. Tragen Sie hier Ihre eigenen Quellen ein und verwenden Sie den vorgegebenen Zitierstil.\\
 
-% \noindent So nutzen Sie Literaturverweise. \cite{HBuch16} \\
-% So verweist man auf einen Artikel. \cite{MMuster23} \\
-% Das funktioniert auch mit Online-Quellen. \cite{onlineJohn}.\\
-% Und noch ein Beispiel für einen technischen Bericht. \cite{techSusi}\\
-% Auch ein Datenblatt sollten Sie referenzieren. \cite{datenblatt}
+% \noindent Hier sind einige allgemeine Richtlinien für die Quellenangaben in technischen Berichten:\\
 
-\addcontentsline{toc}{chapter}{Beispiele für Quellenangaben in Texten} % Fügen Sie den Anhang zum Inhaltsverzeichnis hinzu
+% \begin{enumerate}
+% 	\item \textbf{Zitierweise:} Stellen Sie sicher, dass Sie einen einheitlichen Zitierstil verwenden und sich an dessen Formatierungsvorgaben halten. Jeder Zitierstil hat seine eigenen
+% 				Regeln für die Formatierung von Autorennamen, Titeln, Jahreszahlen usw.
+% 	\item \textbf{Vollständige Angaben:} Geben Sie alle erforderlichen Informationen für die Quellenangabe an. Dazu gehören Autor(en), Titel, Veröffentlichungsdatum, Verlags- oder Website
+% 				Informationen, Seitenzahlen (falls zutreffend) und ähnliches.
+% 	\item \textbf{Nummerierung:} In einigen technischen Berichten werden die Quellen im Text durch Nummern oder Klammern gekennzeichnet. Die Nummern verweisen auf das entsprechende
+% 				Literaturverzeichnis am Ende des Berichts.
+% 	\item \textbf{Literaturverzeichnis:} Fügen Sie am Ende des Berichts ein vollständiges Literaturverzeichnis hinzu, in dem alle zitierten Quellen aufgelistet sind.
+% 	\item \textbf{Online-Quellen:} Für Online-Quellen sollten Sie die URL und das Zugriffsdatum angeben, um die Quelle eindeutig zu identifizieren.
+% \end{enumerate}
+
+% \vspace{1cm}
+% \noindent Die folgenden Sätze zeigen, wie eine Quelle angegeben wird. In der Datei \textit{references.bib} werden die einzelnen Quellen
+% aufgelistet. Tragen Sie hier Ihre eigenen Quellen ein und verwenden Sie den vorgegebenen Zitierstil.\\
+
+% % \noindent So nutzen Sie Literaturverweise. \cite{HBuch16} \\
+% % So verweist man auf einen Artikel. \cite{MMuster23} \\
+% % Das funktioniert auch mit Online-Quellen. \cite{onlineJohn}.\\
+% % Und noch ein Beispiel für einen technischen Bericht. \cite{techSusi}\\
+% % Auch ein Datenblatt sollten Sie referenzieren. \cite{datenblatt}
+
+% \addcontentsline{toc}{chapter}{Beispiele für Quellenangaben in Texten} % Fügen Sie den Anhang zum Inhaltsverzeichnis hinzu
 
 
 
